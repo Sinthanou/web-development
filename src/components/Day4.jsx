@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-const LoginForm = ({ isDarkMode }) => {
+const LoginForm = ({ isDarkMode, onSubmit }) => {
     const [profileImage, setProfileImage] = useState("")
     const [formData, setFormData] = useState({
         username: "",
         password: ""
     })
-    const [errorText,setErorrText] = useState("")
+    const [errorText, setErrorText] = useState("")
 
     const handleChange = (e) => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setFormData((inputData) => ({
             ...inputData, [name]: value
         }))
@@ -17,11 +17,11 @@ const LoginForm = ({ isDarkMode }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-                if (formData.username === "Mo" && formData.password === "59769452") {
-                    setErorrText("Login Success")
-                }else{
-                    setErorrText("your username or password is incorrect")
-                }
+        if (formData.username !== "" && formData.password !== "") {
+            onSubmit(formData, setErrorText)
+        } else {
+            setErrorText("Please Enter Complete Information")
+        }
     }
 
     const handleImageUpload = (e) => {
@@ -55,11 +55,9 @@ const LoginForm = ({ isDarkMode }) => {
                         <p>Password</p>
                         <input type="password" name='password' value={formData.password} onChange={handleChange} className='input-style' placeholder='Password...' />
                     </div>
-                    {/* {errorText && (
-                        <div className="">
-                            <p>{errorText}</p>
-                        </div>
-                    ): null} */}
+                    <div className="text-red-500">
+                        <p>{errorText}</p>
+                    </div>
                     <div className="text-center mt-10">
                         <button onClick={handleSubmit} className="button-fill">Login</button>
                     </div>
@@ -121,11 +119,17 @@ const Day4 = () => {
     const [isDarkMode, setIsDarkMode] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
     const [isAlert, setIaAlert] = useState(false)
-    const [userData, setUserData] = useState("") 
+    const [userData, setUserData] = useState("")
 
-    const handleSubmit = (Data) => {
-        setIaAlert(true)
+    const handleSubmit = (Data, setErrorText) => {
         setUserData(Data)
+        
+        if(userData.username === "admin" && userData.password === "59769452") {
+            setIaAlert(true)
+        }else{
+            setIaAlert(false)
+            setErrorText("your username or password is incorrect")
+        }
     }
 
     return (
@@ -142,7 +146,15 @@ const Day4 = () => {
                 </div>
             </div>
             <div className={`${isDarkMode ? "bg-gray-600" : "bg-blue-50"} flex flex-col gap-5 justify-center transition-all items-center h-screen`}>
-                {isLogin ? <SignUpForm isDarkMode={isDarkMode} onSubmit={handleSubmit}/> : <LoginForm isDarkMode={isDarkMode} />}
+                {isAlert ? (
+                    <div className={`${isDarkMode ? "bg-black text-white" : "bg-white text-black"} w-[500px] shadow-md flex justify-center rounded-md py-5`}>
+                        <p className='text-3xl font-bold'>Welcome</p>
+                    </div>
+                ) : (
+                    <div className="">
+                        {isLogin ? <SignUpForm isDarkMode={isDarkMode} /> : <LoginForm isDarkMode={isDarkMode} onSubmit={handleSubmit} />}
+                    </div>
+                )}
             </div>
         </>
     );
