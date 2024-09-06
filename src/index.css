@@ -18,4 +18,7 @@
     .button-stroke {
         @apply rounded-md px-5 py-2 text-blue-500 border border-blue-500 active:scale-90 hover:bg-blue-500 hover:border-white hover:text-white transition-all
     }
+    .slide-button { 
+        @apply bg-gray-100 absolute translate-y-[400%] rounded-md w-10 h-10 opacity-50 hover:opacity-100 transition-opacity
+    }
 }

@@ -17,10 +17,11 @@ const LoginForm = ({ isDarkMode, onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (formData.username !== "" && formData.password !== "") {
-            onSubmit(formData, setErrorText)
+        if (formData.username === "admin" && formData.password === "59769452") {
+            onSubmit(formData)
+            setErrorText("")
         } else {
-            setErrorText("Please Enter Complete Information")
+            setErrorText("your username or password is incorrect")
         }
     }
 
@@ -34,6 +35,8 @@ const LoginForm = ({ isDarkMode, onSubmit }) => {
             reader.readAsDataURL(file)
         }
     }
+
+    console.log(formData)
 
     return (
         <>
@@ -55,9 +58,11 @@ const LoginForm = ({ isDarkMode, onSubmit }) => {
                         <p>Password</p>
                         <input type="password" name='password' value={formData.password} onChange={handleChange} className='input-style' placeholder='Password...' />
                     </div>
-                    <div className="text-red-500">
-                        <p>{errorText}</p>
-                    </div>
+                    {errorText && (
+                        <div className="text-red-500">
+                            <p>{errorText}</p>
+                        </div>
+                    )}
                     <div className="text-center mt-10">
                         <button onClick={handleSubmit} className="button-fill">Login</button>
                     </div>
@@ -118,18 +123,17 @@ const Day4 = () => {
 
     const [isDarkMode, setIsDarkMode] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
-    const [isAlert, setIaAlert] = useState(false)
-    const [userData, setUserData] = useState("")
+    const [isAlert, setIAlert] = useState(false)
+    const [userData, setUserData] = useState(null)
 
-    const handleSubmit = (Data, setErrorText) => {
+    const handleLogin = (Data) => {
+        setIAlert(true)
         setUserData(Data)
-        
-        if(userData.username === "admin" && userData.password === "59769452") {
-            setIaAlert(true)
-        }else{
-            setIaAlert(false)
-            setErrorText("your username or password is incorrect")
-        }
+    }
+
+    const handleLogout = () => {
+        setIAlert(false)
+        setUserData(null)
     }
 
     return (
@@ -148,11 +152,14 @@ const Day4 = () => {
             <div className={`${isDarkMode ? "bg-gray-600" : "bg-blue-50"} flex flex-col gap-5 justify-center transition-all items-center h-screen`}>
                 {isAlert ? (
                     <div className={`${isDarkMode ? "bg-black text-white" : "bg-white text-black"} w-[500px] shadow-md flex justify-center rounded-md py-5`}>
-                        <p className='text-3xl font-bold'>Welcome</p>
+                        <div className="text-center">
+                            <p className='text-3xl font-bold mb-5'>Welcome</p>
+                            <button onClick={handleLogout} className='button-fill'>Logout</button>
+                        </div>
                     </div>
                 ) : (
                     <div className="">
-                        {isLogin ? <SignUpForm isDarkMode={isDarkMode} /> : <LoginForm isDarkMode={isDarkMode} onSubmit={handleSubmit} />}
+                        {isLogin ? <SignUpForm isDarkMode={isDarkMode} /> : <LoginForm isDarkMode={isDarkMode} onSubmit={handleLogin} />}
                     </div>
                 )}
             </div>
