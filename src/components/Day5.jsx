@@ -127,7 +127,7 @@ const TodoLists = () => {
           <button onClick={(e) => addNewTodo(e)} className='button-fill'>Add</button>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-3 my-5">
         {todo.map((data, index) => (
           <div key={index} className="flex items-center justify-between border border-black rounded-md p-3 w-[700px]">
             <p onClick={() => handleComplete(index)} className={`${data.complete ? "line-through hover:bg-none" : "hover:bg-gray-100"} cursor-pointer`}>{data.text}</p>

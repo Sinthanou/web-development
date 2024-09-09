@@ -28,7 +28,7 @@ const App = () => {
         return <Day4 />
       case 5:
         return <Day5/>
-      case 5:
+      case 6:
         return <Day6/>
       default:
         return null
