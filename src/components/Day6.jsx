@@ -192,7 +192,7 @@ const ProductSearch = () => {
       <div className="flex justify-center py-5">
         <div className="text-center">
           <p className='text-2xl font-bold'>Product Search</p>
-          <form action="" className='my-3 text-left' onSubmit={() => {
+          <form action="" className='my-3 text-left' onSubmit={(e) => {
             e.preventDefault()
             handleSearch
           }}>

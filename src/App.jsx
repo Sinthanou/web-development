@@ -5,12 +5,13 @@ import Day3 from "./components/Day3"
 import Day4 from "./components/Day4"
 import Day5 from "./components/Day5"
 import Day6 from "./components/Day6"
+import Day7 from "./components/Day7"
 
 // main components
 const App = () => {
 
   const Days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const [currentDay, setCurrentDay] = useState(6)
+  const [currentDay, setCurrentDay] = useState(7)
 
   function handleDayClick(Day) {
     setCurrentDay(Day)
@@ -30,6 +31,8 @@ const App = () => {
         return <Day5/>
       case 6:
         return <Day6/>
+      case 7:
+        return <Day7/>
       default:
         return null
     }
