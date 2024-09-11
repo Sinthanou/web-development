@@ -9,8 +9,8 @@ function Day7() {
     const [posts, setPosts] = useState([])
     const [newPost, setNewPost] = useState('')
     const [loginData, setLoginData] = useState({
-        email: "",
-        password: ""
+        email: "mosii@gmail.com",
+        password: "59769452"
     })
     const [signUpData, setSignUpData] = useState({
         first_name: "",
@@ -33,6 +33,7 @@ function Day7() {
                 localStorage.setItem('token', token)
                 setUser(res.data.data.user)
                 fetchRests(token)
+                setActiveTap("")
                 Swal.fire({
                     icon: "success",
                     title: "Login Success",
@@ -48,7 +49,6 @@ function Day7() {
             console.log(error)
         } finally {
             setIsLoading(false)
-            setActiveTap("")
         }
     }
 
@@ -109,8 +109,37 @@ function Day7() {
         })
     }
 
-    const handlePostSubmit = () => {
-
+    const handlePostSubmit = async (e) => {
+        e.preventDefault()
+        const token = localStorage.getItem('token')
+        if(!token) {
+            Swal.fire({
+                icon: "warning",
+                title: "Please login first!",
+                text: "Please login to perform this action"
+            })
+            return        
+        }
+        setIsLoading(true)
+        try {
+            await axios.post(`${API_URL}/posts`, { content: newPost }, { headers: { Authorization: `Bearer ${token}` } })
+            setNewPost("")
+            fetchRests(token)
+            Swal.fire({
+                icon: "success",
+                title: "Create a new post successfully",
+                text: "You have already posted"
+            })
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Cannot create a new post!",
+                text: "something went worng, please try again later!"
+            })
+        } finally {
+            setIsLoading(false)
+        }
+        
     }
 
     return (
@@ -166,7 +195,13 @@ function Day7() {
                     {activeTap === "" && (
                         <form action="" className='text-center' onSubmit={handlePostSubmit}>
                             <input className='input-style mb-5' type="text" name="" id="" value={newPost} onChange={(e) => setNewPost(e.target.value)} />
-                            <button className='button-stroke' type='submit' >post</button>
+                            <button className='button-stroke' type='submit' >
+                            {isLoading ? (
+                                    <p>loading...</p>
+                                ) : (
+                                    <p>Post</p>
+                                )}
+                            </button>
                         </form>
                     )}
                 </div>
@@ -183,12 +218,14 @@ function Day7() {
                 </div>
                 <h2 className='text-center text-xl font-bold'>Posts</h2>
                 {isPostsLoading ? (
-                    <div className="">Loading...</div>
+                    <div className="flex justify-center py-10"><p>Loading...</p></div>
                 ) : (
                     <ul className='flex flex-col items-left gap-3'>
                         {posts.map((post, index) => (
                             <li key={index} className='bg-gray-300 rounded-md px-4 py-8 w-[600px]'>
+                                <p>post by: {post.author.first_name}</p>
                                 <p>{post.content}</p>
+                                <p>Like: {post.likes ? post.likes.length : 0}</p>
                             </li>
                         ))}
                     </ul>
