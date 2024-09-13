@@ -8,7 +8,6 @@ const API_URL = "https://sample-api-fwbm.onrender.com/api/v1"
 function Authentication() {
     const [user, setUser] = useState({})
     const [posts, setPosts] = useState([])
-    const [newPost, setNewPost] = useState('')
     const [loginData, setLoginData] = useState({
         email: "mosii@gmail.com",
         password: "59769452"
@@ -22,7 +21,6 @@ function Authentication() {
     })
     const [activeTap, setActiveTap] = useState('login')
     const [isLoading, setIsLoading] = useState(false)
-    const [isPostsLoading, setIsPostsLoading] = useState(false)
     const navigate = useNavigate()
 
     const handleLogin = async (e) => {
@@ -33,9 +31,8 @@ function Authentication() {
             if (res.data.status === 'success') {
                 const token = res.data.token
                 localStorage.setItem('token', token)
-                fetchRests()
                 setActiveTap("")
-                navigate("/Day8")
+                navigate("/")
                 Swal.fire({
                     icon: "success",
                     title: "Login Success",
@@ -63,7 +60,6 @@ function Authentication() {
                 const token = res.data.data.token
                 localStorage.setItem('token', token)
                 setUser(res.data.data.user)
-                fetchRests()
                 Swal.fire({
                     icon: "success",
                     title: "SignUp Success",
@@ -82,23 +78,6 @@ function Authentication() {
         }
     }
 
-    const fetchRests = async () => {
-        const token = localStorage.getItem('token')
-        if (!token) {
-            setPosts([])
-            return
-        }
-        setIsPostsLoading(true)
-        try {
-            const res = await axios.get(`${API_URL}/posts`, { headers: { Authorization: `Bearer ${token}` } })
-            setPosts(res.data.data.posts)
-        } catch (error) {
-            console.log(error)
-            setPosts([])
-        } finally {
-            setIsPostsLoading(false)
-        }
-    }
 
     return (
         <>

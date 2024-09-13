@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import Day2 from "./components/Day2"
 import Day1 from "./components/Day1"
 import Day3 from "./components/Day3"
@@ -10,9 +11,16 @@ import Day8 from "./components/Day8"
 
 // main components
 const App = () => {
-
   const Days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [currentDay, setCurrentDay] = useState(8)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      console.log("555555")
+      navigate("/authentication");
+    }
+  }, []);
 
   function handleDayClick(Day) {
     setCurrentDay(Day)

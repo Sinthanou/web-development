@@ -27,16 +27,16 @@ function Profile() {
         <div className="bg-white grid grid-cols-3 h-[600px] rounded-md">
           <div className="bg-blue-500 py-5 px-7 rounded-tl-md rounded-bl-md flex flex-col justify-between">
             <div className="text-center">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*" alt="" className='w-[150px] h-[150px] mb-3 border-2 border-black rounded-full' />
+              <img src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*" alt="" className='w-[150px] h-[150px] mb-3 border-2 border-black rounded-full animate-spin-slow' />
               <p className='text-white font-bold text-lg'>{profileData.first_name} {profileData.surname}</p>
             </div>
             <div className="">
-              <button className='button-fill bg-white text-blue-500 flex items-center gap-2 hover:bg-white'>
-                <p>&#10094;</p>
-                <Link to={"/"}>
+              <Link to={"/"}>
+                <button className='button-fill bg-white text-blue-500 flex items-center gap-2 hover:bg-white'>
+                  <p>&#10094;</p>
                   <p>Back</p>
-                </Link>
-              </button>
+                </button>
+              </Link>
             </div>
           </div>
           <div className="col-span-2 pt-5 pl-5 pr-10 w-[400px]">
@@ -60,7 +60,7 @@ function Profile() {
             </div>
             <div className="">
               <p className='text-2xl font-bold text-blue-500'>DeTails</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui placeat perspiciatis adipisci dolorem reprehenderit veritatis ratione accusantium, at ab, vel cumque tempora voluptate quibusdam aliquid inventore illum! Dolore, quia rem!</p>
+              <p>ຜ່ານການຮຽນຄອດ web development ມາ 10 ມື້ ນ້ອງໄດ້ຄວາມຮູ້ໃຫມ່ໆຫຼາຍຢ່າງເຊັ່ນ: ການນຳໃຊ້ front-end library ກໍຄື react, ໄດ້ຮູ້ເທັກນິກຕ່າງໆໃນການຂຽນ JavaScript ໃນ react, ການຕໍ່ API ແລະ ອື່ນໆ...</p>
             </div>
           </div>
         </div>
