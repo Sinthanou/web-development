@@ -1,7 +1,7 @@
 import React from 'react'
 import App from "../App";
 import EditPost from "../components/EditPost";
-import Profile from '../components/profile';
+import Profile from '../components/Profile';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function AppRouter() {

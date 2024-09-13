@@ -5,20 +5,13 @@ import { Link } from 'react-router-dom'
 const API_URL = "https://sample-api-fwbm.onrender.com/api/v1"
 
 function Profile() {
-  const loginData = {
-    email: "mosii@gmail.com",
-    password: "59769452"
-  }
   const [profileData, setProfileData] = useState({})
 
   const fetchProfileDate = async () => {
+    const token = localStorage.getItem('token')
     try {
-      const res = await axios.post(`${API_URL}/users/login`, loginData)
-      if(res.data.status === "success") {
-        const token = res.data.token
-        localStorage.setItem('token', token)
-        setProfileData(res.data.data.user)
-      }
+      const res = await axios.get(`${API_URL}/users/me`, { headers: { Authorization: `Bearer ${token}` } })
+      setProfileData(res.data.data.data)
     } catch (error) {
       console.log(error)
     }

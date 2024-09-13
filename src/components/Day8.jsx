@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom'
-import { CgProfile } from "react-icons/cg";
-
 
 const API_URL = "https://sample-api-fwbm.onrender.com/api/v1"
 
@@ -31,18 +29,18 @@ function Day8() {
         setIsLoading(true)
         try {
             const res = await axios.post(`${API_URL}/users/login`, loginData)
-            // if (res.data.status === 'success') {
-            //     const token = res.data.token
-            //     localStorage.setItem('token', token)
-            //     setUser(res.data.data.user)
-            //     fetchRests()
-            //     setActiveTap("")
-            //     Swal.fire({
-            //         icon: "success",
-            //         title: "Login Success",
-            //         text: `Welcome, ${res.data.data.user.first_name} ${res.data.data.user.surname} `
-            //     })
-            // }
+            if (res.data.status === 'success') {
+                const token = res.data.token
+                localStorage.setItem('token', token)
+                setUser(res.data.data.user)
+                fetchRests()
+                setActiveTap("")
+                Swal.fire({
+                    icon: "success",
+                    title: "Login Success",
+                    text: `Welcome, ${res.data.data.user.first_name} ${res.data.data.user.surname} `
+                })
+            }
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -185,7 +183,7 @@ function Day8() {
 
     const handleDelete = async (postID, index_) => {
         const token = localStorage.getItem("token")
-        if (!token) {
+        if(!token) {
             Swal.fire({
                 icon: "warning",
                 title: "Please login first.",
@@ -204,7 +202,7 @@ function Day8() {
             cancelButtonText: "Cancel"
         })
 
-        if (result.isConfirmed) {
+        if(result.isConfirmed) {
             try {
                 await axios.delete(`${API_URL}/posts/${postID}`, { headers: { Authorization: `Bearer ${token}` } })
                 Swal.fire({
@@ -225,7 +223,7 @@ function Day8() {
 
     const handleLike = async (postId) => {
         const token = localStorage.getItem("token")
-        if (!token) {
+        if(!token) {
             Swal.fire({
                 icon: "warning",
                 title: "Please login first.",
@@ -236,7 +234,7 @@ function Day8() {
 
         try {
             const res = await axios.post(`${API_URL}/posts/${postId}/like`, {}, { headers: { Authorization: `Bearer ${token}` } })
-            if (res.data.status === "success") {
+            if(res.data.status === "success") {
                 const postLiked = posts.map((index) => {
 
                 })
@@ -276,14 +274,6 @@ function Day8() {
             )}
             <div className="flex justify-center">
                 <div className="text-center">
-                    {activeTap === "" && (
-                        <div className="flex flex-col items-center">
-                            <Link to={"/Profile"}>
-                                <p className='text-7xl text-blue-500 cursor-pointer hover:scale-110 transition-transform'><CgProfile /></p>
-                            </Link>
-                            <p className='font-bold text-xl'>Profile</p>
-                        </div>
-                    )}
                     <h1 className='text-2xl font-bold my-5'>Day8 Login, Posts, CRUD and Router</h1>
                     <div className="flex justify-center">
                         {activeTap === "login" &&
@@ -333,6 +323,12 @@ function Day8() {
             {activeTap === "" ? (
                 <div className="flex flex-col items-center gap-5">
                     <div className="w-[600px] flex items-center justify-between">
+                        <div className="">
+                            <h2>Hello, {user.first_name}</h2>
+                            <p>Email: {user.email}</p>
+                            <p>Phone Number: {user.phone_number}</p>
+                            <p>role: {user.role}</p>
+                        </div>
                         <button className='button-fill' onClick={handleLogOut}>Logout</button>
                     </div>
                     {isPostsLoading ? (
@@ -352,14 +348,14 @@ function Day8() {
                                     <p>{post.content}</p>
                                     <div className="flex items-center justify-between gap-3 mt-10">
                                         <div className="flex items-center gap-3">
-                                            <IconLike onClick={() => handleLike(post._id)} />
+                                            <IconLike onClick={() => handleLike(post._id, index)} className={`${isLike ? "text-blue-500" : "text-black"}`}/>
                                             <p> {post.likes ? post.likes.length : 0}</p>
                                         </div>
                                         <div className="flex justify-end gap-3">
                                             <Link to={`/edit/${post._id}`}>
                                                 <button className='button-fill py-1 px-3 bg-yellow-500 hover:bg-yellow-400'>Edit</button>
                                             </Link>
-                                            <button className='button-fill py-1 px-3 bg-red-500 hover:bg-red-400' onClick={() => { handleDelete(post._id) }}>Delete</button>
+                                                <button className='button-fill py-1 px-3 bg-red-500 hover:bg-red-400' onClick={() =>{handleDelete(post._id)}}>Delete</button>
                                         </div>
                                     </div>
                                 </li>
