@@ -235,9 +235,6 @@ function Day8() {
         try {
             const res = await axios.post(`${API_URL}/posts/${postId}/like`, {}, { headers: { Authorization: `Bearer ${token}` } })
             if(res.data.status === "success") {
-                const postLiked = posts.map((index) => {
-
-                })
                 fetchRests()
                 Swal.fire({
                     icon: "success",
@@ -348,7 +345,7 @@ function Day8() {
                                     <p>{post.content}</p>
                                     <div className="flex items-center justify-between gap-3 mt-10">
                                         <div className="flex items-center gap-3">
-                                            <IconLike onClick={() => handleLike(post._id, index)} className={`${isLike ? "text-blue-500" : "text-black"}`}/>
+                                            <IconLike onClick={() => handleLike(post._id, index)}/>
                                             <p> {post.likes ? post.likes.length : 0}</p>
                                         </div>
                                         <div className="flex justify-end gap-3">
